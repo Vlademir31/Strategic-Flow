@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lean | Fluxo Estratégico</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/export.js"></script>
+    <script defer src="../js/lean.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <h1>Fluxo Estratégico</h1>
+            <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral"><i class="fa-solid fa-bars"></i></button>
+        </div>
+
+        <nav class="menu">
+            <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+            <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+            <a href="lean.html" class="menu-link active"><i class="fa-solid fa-leaf"></i><span>Lean</span></a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <section class="hero">
+            <h2>Lean - Eficiência e eliminação de desperdícios</h2>
+            <p>Controle 5S, desperdícios, auditorias e planos de melhoria para o armazém.</p>
+        </section>
+
+        <section class="kpi-grid">
+            <article class="kpi"><span>Auditorias</span><strong id="kpiAuditorias">0</strong></article>
+            <article class="kpi"><span>5S médio</span><strong id="kpi5s">0%</strong></article>
+            <article class="kpi"><span>Desperdícios</span><strong id="kpiDesperdicios">0</strong></article>
+            <article class="kpi"><span>Planos abertos</span><strong id="kpiPlanosLean">0</strong></article>
+        </section>
+
+        <section class="panel">
+            <h2>Filtros avançados</h2>
+            <div class="grid">
+                <div class="form-group"><label for="fArea">Área</label><input id="fArea" placeholder="Filtrar por área"></div>
+                <div class="form-group"><label for="fStatus">Status</label>
+                    <select id="fStatus">
+                        <option value="">Todos</option>
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group"><label for="fTipo">Tipo</label><input id="fTipo" placeholder="5S, desperdício, auditoria"></div>
+                <div class="form-group"><label for="fBusca">Busca geral</label><input id="fBusca" placeholder="Pesquisar"></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="btnLimparFiltros">Limpar filtros</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Cadastro 5S</h2>
+            <div class="grid">
+                <div class="form-group"><label for="sArea">Área</label><input id="sArea"></div>
+                <div class="form-group"><label for="sScore">Score</label><input id="sScore" type="number" min="0" max="100"></div>
+                <div class="form-group"><label for="sStatus">Status</label>
+                    <select id="sStatus">
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label for="sObs">Observação</label><textarea id="sObs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvar5S">Salvar 5S</button>
+                <button class="btn btn-secondary" id="btnExport5SJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExport5SCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Desperdícios</h2>
+            <div class="grid">
+                <div class="form-group"><label for="dTipo">Tipo</label><input id="dTipo" placeholder="Ex: Transporte"></div>
+                <div class="form-group"><label for="dArea">Área</label><input id="dArea" placeholder="Ex: Separação"></div>
+                <div class="form-group"><label for="dImpacto">Impacto</label><input id="dImpacto" type="number" placeholder="Ex: 12"></div>
+                <div class="form-group"><label for="dStatus">Status</label>
+                    <select id="dStatus">
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label for="dObs">Observação</label><textarea id="dObs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvarDesperdicio">Salvar desperdício</button>
+                <button class="btn btn-secondary" id="btnExportDespJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportDespCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Auditoria</h2>
+            <div class="grid">
+                <div class="form-group"><label for="aArea">Área</label><input id="aArea"></div>
+                <div class="form-group"><label for="aAuditor">Auditor</label><input id="aAuditor"></div>
+                <div class="form-group"><label for="aScore">Score</label><input id="aScore" type="number" min="0" max="100"></div>
+                <div class="form-group"><label for="aStatus">Status</label>
+                    <select id="aStatus">
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label for="aObs">Observação</label><textarea id="aObs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvarAuditoria">Salvar auditoria</button>
+                <button class="btn btn-secondary" id="btnExportAudJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportAudCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Plano de melhoria</h2>
+            <div class="grid">
+                <div class="form-group"><label for="pArea">Área</label><input id="pArea"></div>
+                <div class="form-group"><label for="pAcao">Ação</label><input id="pAcao"></div>
+                <div class="form-group"><label for="pResp">Responsável</label><input id="pResp"></div>
+                <div class="form-group"><label for="pPrazo">Prazo</label><input id="pPrazo" type="date"></div>
+                <div class="form-group"><label for="pStatus">Status</label>
+                    <select id="pStatus">
+                        <option value="Aberto">Aberto</option>
+                        <option value="Em andamento">Em andamento</option>
+                        <option value="Concluído">Concluído</option>
+                    </select>
+                </div>
+                <div class="form-group full"><label for="pObs">Detalhes</label><textarea id="pObs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvarPlano">Salvar plano</button>
+                <button class="btn btn-secondary" id="btnExportPlanJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportPlanCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Registros Lean</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Área</th>
+                            <th>Descrição</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaLean"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Dashboard da página</h2>
+            <div class="grid">
+                <article class="card"><div class="icon"><i class="fa-solid fa-check"></i></div><h3>5S médio</h3><p id="dashLean5s">0%</p></article>
+                <article class="card"><div class="icon"><i class="fa-solid fa-triangle-exclamation"></i></div><h3>Desperdícios críticos</h3><p id="dashLeanCriticos">0</p></article>
+                <article class="card"><div class="icon"><i class="fa-solid fa-clipboard-check"></i></div><h3>Auditorias concluídas</h3><p id="dashLeanAud">0</p></article>
+                <article class="card"><div class="icon"><i class="fa-solid fa-bullseye"></i></div><h3>Melhorias abertas</h3><p id="dashLeanPlanos">0</p></article>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

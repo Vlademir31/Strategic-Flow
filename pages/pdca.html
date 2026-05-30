@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDCA | Fluxo Estratégico</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/export.js"></script>
+    <script defer src="../js/pdca.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <h1>Fluxo Estratégico</h1>
+                <button class="toggle-btn" id="toggleSidebar" title="Alternar menu"><i class="fa-solid fa-bars"></i></button>
+            </div>
+
+            <nav class="menu">
+                <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                <a href="pdca.html" class="menu-link active"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <section class="hero">
+                <h2>PDCA - Gestão de processos do armazém</h2>
+                <p>Cadastro de processos, perdas, SIPOC, indicadores e plano de ação com edição, filtros e exportação.</p>
+            </section>
+
+            <section class="kpi-grid">
+                <article class="kpi"><span>Processos</span><strong id="kpiProcessos">0</strong></article>
+                <article class="kpi"><span>Perdas</span><strong id="kpiPerdas">0</strong></article>
+                <article class="kpi"><span>Planos em aberto</span><strong id="kpiPlanos">0</strong></article>
+                <article class="kpi"><span>Indicadores</span><strong id="kpiIndicadores">0</strong></article>
+            </section>
+
+            <section class="panel">
+                <h2>Filtros avançados</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="filtroStatus">Status</label>
+                        <select id="filtroStatus">
+                            <option value="">Todos</option>
+                            <option value="Ativo">Ativo</option>
+                            <option value="Em análise">Em análise</option>
+                            <option value="Parado">Parado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroArea">Área</label>
+                        <input id="filtroArea" placeholder="Filtrar por área">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroResp">Responsável</label>
+                        <input id="filtroResp" placeholder="Filtrar por responsável">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroPeriodoInicio">Início</label>
+                        <input id="filtroPeriodoInicio" type="date">
+                    </div>
+                    <div class="form-group">
+                        <label for="filtroPeriodoFim">Fim</label>
+                        <input id="filtroPeriodoFim" type="date">
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-secondary" id="btnLimparFiltros">Limpar filtros</button>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Cadastro de processo</h2>
+                <div class="grid">
+                    <div class="form-group">
+                        <label for="procNome">Processo</label>
+                        <input id="procNome" placeholder="Ex: Separação de pedidos">
+                    </div>
+                    <div class="form-group">
+                        <label for="procArea">Área</label>
+                        <input id="procArea" placeholder="Ex: Expedição">
+                    </div>
+                    <div class="form-group">
+                        <label for="procResp">Responsável</label>
+                        <input id="procResp" placeholder="Ex: João">
+                    </div>
+                    <div class="form-group">
+                        <label for="procStatus">Status</label>
+                        <select id="procStatus">
+                            <option value="Ativo">Ativo</option>
+                            <option value="Em análise">Em análise</option>
+                            <option value="Parado">Parado</option>
+                        </select>
+                    </div>
+                    <div class="form-group full">
+                        <label for="procObs">Observação</label>
+                        <textarea id="procObs" placeholder="Descreva o processo"></textarea>
+                    </div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-primary" id="btnSalvarProcesso">Salvar processo</button>
+                    <button class="btn btn-secondary" id="btnExportProcessoJson">Exportar JSON</button>
+                    <button class="btn btn-secondary" id="btnExportProcessoCsv">Exportar CSV</button>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Processos cadastrados</h2>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Processo</th>
+                                <th>Área</th>
+                                <th>Responsável</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaProcessos"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Perdas operacionais</h2>
+                <div class="grid">
+                    <div class="form-group"><label for="perdaTipo">Tipo</label><input id="perdaTipo" placeholder="Ex: Avaria"></div>
+                    <div class="form-group"><label for="perdaProc">Processo</label><input id="perdaProc" placeholder="Ex: Conferência"></div>
+                    <div class="form-group"><label for="perdaImpacto">Impacto</label><input id="perdaImpacto" type="number" placeholder="Ex: 120"></div>
+                    <div class="form-group"><label for="perdaUnid">Unidade</label><input id="perdaUnid" placeholder="R$ / qtd / min"></div>
+                    <div class="form-group full"><label for="perdaCausa">Causa</label><textarea id="perdaCausa"></textarea></div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-primary" id="btnSalvarPerda">Salvar perda</button>
+                    <button class="btn btn-secondary" id="btnExportPerdaJson">Exportar JSON</button>
+                    <button class="btn btn-secondary" id="btnExportPerdaCsv">Exportar CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo</th>
+                                <th>Processo</th>
+                                <th>Impacto</th>
+                                <th>Unidade</th>
+                                <th>Causa</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPerdas"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>SIPOC</h2>
+                <div class="grid">
+                    <div class="form-group"><label for="sipSup">Suppliers</label><input id="sipSup"></div>
+                    <div class="form-group"><label for="sipInp">Inputs</label><input id="sipInp"></div>
+                    <div class="form-group"><label for="sipProc">Process</label><input id="sipProc"></div>
+                    <div class="form-group"><label for="sipOut">Outputs</label><input id="sipOut"></div>
+                    <div class="form-group full"><label for="sipCus">Customers</label><input id="sipCus"></div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-primary" id="btnSalvarSipoc">Salvar SIPOC</button>
+                    <button class="btn btn-secondary" id="btnExportSipocJson">Exportar JSON</button>
+                    <button class="btn btn-secondary" id="btnExportSipocCsv">Exportar CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Suppliers</th>
+                                <th>Inputs</th>
+                                <th>Process</th>
+                                <th>Outputs</th>
+                                <th>Customers</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaSipoc"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Indicadores</h2>
+                <div class="grid">
+                    <div class="form-group"><label for="indNome">Indicador</label><input id="indNome" placeholder="Ex: Acuracidade de inventário"></div>
+                    <div class="form-group"><label for="indMeta">Meta</label><input id="indMeta" type="number" placeholder="Ex: 98"></div>
+                    <div class="form-group"><label for="indReal">Realizado</label><input id="indReal" type="number" placeholder="Ex: 95"></div>
+                    <div class="form-group"><label for="indUnid">Unidade</label><input id="indUnid" placeholder="% / R$ / qtd"></div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-primary" id="btnSalvarIndicador">Salvar indicador</button>
+                    <button class="btn btn-secondary" id="btnExportIndicadorJson">Exportar JSON</button>
+                    <button class="btn btn-secondary" id="btnExportIndicadorCsv">Exportar CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Indicador</th>
+                                <th>Meta</th>
+                                <th>Realizado</th>
+                                <th>Unidade</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaIndicadores"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <h2>Plano de ação</h2>
+                <div class="grid">
+                    <div class="form-group"><label for="plTopico">Tópico</label><input id="plTopico" placeholder="Ex: Reduzir avarias"></div>
+                    <div class="form-group"><label for="plAcao">Ação</label><input id="plAcao" placeholder="Ex: Revisar armazenagem"></div>
+                    <div class="form-group"><label for="plResp">Responsável</label><input id="plResp" placeholder="Ex: Maria"></div>
+                    <div class="form-group"><label for="plPrazo">Prazo</label><input id="plPrazo" type="date"></div>
+                    <div class="form-group"><label for="plStatus">Status</label>
+                        <select id="plStatus">
+                            <option value="Aberto">Aberto</option>
+                            <option value="Em andamento">Em andamento</option>
+                            <option value="Concluído">Concluído</option>
+                        </select>
+                    </div>
+                    <div class="form-group full"><label for="plDetalhe">Detalhes</label><textarea id="plDetalhe"></textarea></div>
+                </div>
+                <div class="toolbar">
+                    <button class="btn btn-primary" id="btnSalvarPlano">Salvar plano</button>
+                    <button class="btn btn-secondary" id="btnExportPlanoJson">Exportar JSON</button>
+                    <button class="btn btn-secondary" id="btnExportPlanoCsv">Exportar CSV</button>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tópico</th>
+                                <th>Ação</th>
+                                <th>Responsável</th>
+                                <th>Prazo</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaPlanos"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+                <div class="modal">
+                    <h3 id="modalTitle">Editar registro</h3>
+                    <form id="formEdicao">
+                        <div id="modalFields" class="grid"></div>
+                        <div class="modal-actions">
+                            <button type="button" class="btn btn-secondary" id="btnCancelarEdicao">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar alterações</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

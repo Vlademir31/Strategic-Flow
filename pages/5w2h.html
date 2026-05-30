@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5W2H | Fluxo Estratégico</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/export.js"></script>
+    <script defer src="../js/5w2h.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <h1>Fluxo Estratégico</h1>
+            <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral" aria-label="Alternar barra lateral"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <nav class="menu">
+            <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+            <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+            <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean</span></a>
+            <a href="abc.html" class="menu-link"><i class="fa-solid fa-boxes-stacked"></i><span>Curva ABC</span></a>
+            <a href="5w2h.html" class="menu-link active"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
+            <a href="gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <section class="hero">
+            <h2>5W2H - Plano de ação</h2>
+            <p>Estruture ações com clareza: o que, por que, onde, quando, quem, como e quanto.</p>
+        </section>
+
+        <section class="kpi-grid">
+            <article class="kpi"><span>Ações</span><strong id="kpiAcoes">0</strong></article>
+            <article class="kpi"><span>Em andamento</span><strong id="kpiAndamento">0</strong></article>
+            <article class="kpi"><span>Concluídas</span><strong id="kpiConcluidas">0</strong></article>
+            <article class="kpi"><span>Atrasadas</span><strong id="kpiAtrasadas">0</strong></article>
+        </section>
+
+        <section class="panel">
+            <h2>Filtros avançados</h2>
+            <div class="grid">
+                <div class="form-group"><label for="fStatus">Status</label>
+                    <select id="fStatus"><option value="">Todos</option><option>Aberto</option><option>Em andamento</option><option>Concluído</option></select>
+                </div>
+                <div class="form-group"><label for="fBusca">Busca geral</label><input id="fBusca" placeholder="Pesquisar ação, responsável ou área"></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="btnLimparFiltros">Limpar filtros</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Cadastro 5W2H</h2>
+            <div class="grid">
+                <div class="form-group"><label for="what">What</label><input id="what"></div>
+                <div class="form-group"><label for="why">Why</label><input id="why"></div>
+                <div class="form-group"><label for="where">Where</label><input id="where"></div>
+                <div class="form-group"><label for="when">When</label><input id="when" type="date"></div>
+                <div class="form-group"><label for="who">Who</label><input id="who"></div>
+                <div class="form-group"><label for="how">How</label><input id="how"></div>
+                <div class="form-group"><label for="howmuch">How much</label><input id="howmuch" type="number"></div>
+                <div class="form-group"><label for="status">Status</label>
+                    <select id="status"><option>Aberto</option><option>Em andamento</option><option>Concluído</option></select>
+                </div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvar">Salvar ação</button>
+                <button class="btn btn-secondary" id="btnExportJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Ações cadastradas</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>What</th><th>Who</th><th>When</th><th>Status</th><th>Ações</th></tr></thead>
+                    <tbody id="tabela"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

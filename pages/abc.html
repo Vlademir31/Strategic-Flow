@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curva ABC | Fluxo Estratégico</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/export.js"></script>
+    <script defer src="../js/abc.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <h1>Fluxo Estratégico</h1>
+            <button class="toggle-btn" id="toggleSidebar" title="Toggle sidebar" aria-label="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <nav class="menu">
+            <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+            <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+            <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean</span></a>
+            <a href="abc.html" class="menu-link active"><i class="fa-solid fa-boxes-stacked"></i><span>Curva ABC</span></a>
+            <a href="5w2h.html" class="menu-link"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
+            <a href="gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <section class="hero">
+            <h2>Curva ABC - Classificação de itens</h2>
+            <p>Classifique itens por valor, movimentação ou criticidade para apoiar decisões de estoque e layout.</p>
+        </section>
+
+        <section class="kpi-grid">
+            <article class="kpi"><span>Itens A</span><strong id="kpiA">0</strong></article>
+            <article class="kpi"><span>Itens B</span><strong id="kpiB">0</strong></article>
+            <article class="kpi"><span>Itens C</span><strong id="kpiC">0</strong></article>
+            <article class="kpi"><span>Total</span><strong id="kpiTotal">0</strong></article>
+        </section>
+
+        <section class="panel">
+            <h2>Filtros avançados</h2>
+            <div class="grid">
+                <div class="form-group"><label for="fGrupo">Grupo</label>
+                    <select id="fGrupo"><option value="">Todos</option><option>A</option><option>B</option><option>C</option></select>
+                </div>
+                <div class="form-group"><label for="fBusca">Busca geral</label><input id="fBusca" placeholder="Produto, código ou descrição"></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-secondary" id="btnLimparFiltros">Limpar filtros</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Cadastro ABC</h2>
+            <div class="grid">
+                <div class="form-group"><label for="itemNome">Item</label><input id="itemNome"></div>
+                <div class="form-group"><label for="itemCodigo">Código</label><input id="itemCodigo"></div>
+                <div class="form-group"><label for="itemValor">Valor anual</label><input id="itemValor" type="number"></div>
+                <div class="form-group"><label for="itemQtd">Quantidade</label><input id="itemQtd" type="number"></div>
+                <div class="form-group"><label for="itemGrupo">Grupo</label>
+                    <select id="itemGrupo"><option>A</option><option>B</option><option>C</option></select>
+                </div>
+                <div class="form-group full"><label for="itemObs">Observação</label><textarea id="itemObs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvar">Salvar item</button>
+                <button class="btn btn-secondary" id="btnExportJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Itens cadastrados</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Item</th><th>Código</th><th>Valor</th><th>Qtd</th><th>Grupo</th><th>Ações</th></tr></thead>
+                    <tbody id="tabelaABC"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

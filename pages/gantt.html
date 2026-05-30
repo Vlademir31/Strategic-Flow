@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt | Fluxo Estratégico</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/export.js"></script>
+    <script defer src="../js/gantt.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <h1>Fluxo Estratégico</h1>
+            <button type="button" class="toggle-btn" id="toggleSidebar" aria-label="Alternar menu"><i class="fa-solid fa-bars"></i></button>
+        </div>
+        <nav class="menu">
+            <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+            <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+            <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean</span></a>
+            <a href="abc.html" class="menu-link"><i class="fa-solid fa-boxes-stacked"></i><span>Curva ABC</span></a>
+            <a href="5w2h.html" class="menu-link"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
+            <a href="gantt.html" class="menu-link active"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+        </nav>
+    </aside>
+
+    <main class="content">
+        <section class="hero">
+            <h2>Gantt - Cronograma de ações</h2>
+            <p>Visualize prazos, progresso e dependências dos projetos do armazém.</p>
+        </section>
+
+        <section class="kpi-grid">
+            <article class="kpi"><span>Tarefas</span><strong id="kpiTarefas">0</strong></article>
+            <article class="kpi"><span>Concluídas</span><strong id="kpiConcluidas">0</strong></article>
+            <article class="kpi"><span>Em atraso</span><strong id="kpiAtraso">0</strong></article>
+            <article class="kpi"><span>Progresso médio</span><strong id="kpiProg">0%</strong></article>
+        </section>
+
+        <section class="panel">
+            <h2>Cadastro de tarefa</h2>
+            <div class="grid">
+                <div class="form-group"><label for="task">Tarefa</label><input id="task"></div>
+                <div class="form-group"><label for="start">Início</label><input id="start" type="date"></div>
+                <div class="form-group"><label for="end">Fim</label><input id="end" type="date"></div>
+                <div class="form-group"><label for="progress">Progresso</label><input id="progress" type="number" min="0" max="100"></div>
+                <div class="form-group full"><label for="obs">Observação</label><textarea id="obs"></textarea></div>
+            </div>
+            <div class="toolbar">
+                <button class="btn btn-primary" id="btnSalvar">Salvar tarefa</button>
+                <button class="btn btn-secondary" id="btnExportJson">Exportar JSON</button>
+                <button class="btn btn-secondary" id="btnExportCsv">Exportar CSV</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2>Gantt simplificado</h2>
+            <div class="gantt-wrap" id="ganttWrap"></div>
+        </section>
+
+        <section class="panel">
+            <h2>Tarefas cadastradas</h2>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Tarefa</th><th>Início</th><th>Fim</th><th>Progresso</th><th>Ações</th></tr></thead>
+                    <tbody id="tabelaGantt"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
