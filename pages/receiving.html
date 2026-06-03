@@ -62,7 +62,7 @@
         <main class="content">
             <header class="content-header">
                 <div class="header-left">
-                    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
                     <div class="breadcrumb">
                         <a href="../index.html">WMS Strategic Flow</a>
                         <i class="fa-solid fa-chevron-right"></i>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="btn btn-primary" onclick="openReceivingModal()">
+                    <button type="button" class="btn btn-primary" onclick="openReceivingModal()">
                         <i class="fa-solid fa-plus"></i> Novo Recebimento
                     </button>
                 </div>
@@ -101,7 +101,7 @@
                 <div class="panel-header">
                     <h2><i class="fa-solid fa-list"></i> Lista de Recebimentos</h2>
                     <div class="filters">
-                        <select class="select" id="filterStatus">
+                        <select class="select" id="filterStatus" title="Filtrar por status" aria-label="Filtrar por status">
                             <option value="all">Todos os status</option>
                             <option value="pending">Pendente</option>
                             <option value="in_progress">Em Andamento</option>
@@ -136,7 +136,7 @@
     </div>
 
     <!-- MODAL DE RECEBIMENTO -->
-    <div id="receivingModal" class="modal" style="display:none;">
+    <div id="receivingModal" class="modal" hidden>
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Novo Recebimento</h3>
@@ -204,11 +204,13 @@
         }
 
         function openReceivingModal() {
-            document.getElementById('receivingModal').style.display = 'flex';
+            const modal = document.getElementById('receivingModal');
+            modal.hidden = false;
         }
 
         function closeReceivingModal() {
-            document.getElementById('receivingModal').style.display = 'none';
+            const modal = document.getElementById('receivingModal');
+            modal.hidden = true;
             document.getElementById('receivingForm').reset();
         }
 

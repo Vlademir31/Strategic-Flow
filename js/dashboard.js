@@ -39,4 +39,34 @@ function loadSummary() {
 
 function loadCharts() {
     const lineCtx = document.getElementById('lineChart');
-    if (lineCtx) { new Chart(lineCtx.getContext('2d'), { type: 'line', data: { labels: ['Semana 1', 'Semana 2', 'Semana 3',
+    if (lineCtx) {
+        new Chart(lineCtx.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4'],
+                datasets: [{
+                    label: 'Desempenho',
+                    data: [92, 95, 96, 94],
+                    borderColor: '#4CAF50',
+                    backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+}

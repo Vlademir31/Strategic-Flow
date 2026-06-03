@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Strategic Flow | Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <h1>WMS Strategic Flow</h1>
+                <small>Sistema de Gestão</small>
+                    <button type="button" class="toggle-btn" id="toggleSidebar" title="Alternar menu" aria-label="Alternar menu"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <nav class="menu">
+                <div class="menu-section-title">📊 Principal</div>
+                <a href="dashboard.html" class="menu-link active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                
+                <div class="menu-section-title">📦 Operacional</div>
+                <a href="receiving.html" class="menu-link"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                <a href="picking.html" class="menu-link"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                <a href="packing.html" class="menu-link"><i class="fa-solid fa-box"></i><span>Packing</span></a>
+                <a href="shipping.html" class="menu-link"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                <a href="inventory.html" class="menu-link"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                
+                <div class="menu-section-title">🎯 Administrativo</div>
+                <a href="abc.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i><span>Curva ABC</span></a>
+                <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+                <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+                <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean 5S</span></a>
+                <a href="gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+                <a href="5w2h.html" class="menu-link"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu mobile" aria-label="Abrir menu mobile"><i class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb"><a href="#">WMS</a><i class="fa-solid fa-chevron-right"></i><span>Dashboard</span></div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Buscar...">
+                    </div>
+                    <button class="btn btn-primary"><i class="fa-solid fa-plus"></i> Novo</button>
+                </div>
+            </header>
+
+            <section class="hero">
+                <h2><i class="fa-solid fa-chart-line"></i> Dashboard Geral</h2>
+                <p>Visão completa do armazém: KPIs, operações e tendências em tempo real.</p>
+                <div class="hero-stats">
+                    <div class="hero-stat"><span class="stat-value">142</span><span class="stat-label">Pedidos Hoje</span></div>
+                    <div class="hero-stat"><span class="stat-value">1,250</span><span class="stat-label">SKUs</span></div>
+                    <div class="hero-stat"><span class="stat-value">98%</span><span class="stat-label">OTIF</span></div>
+                </div>
+            </section>
+
+            <section class="kpi-grid">
+                <div class="kpi">
+                    <span>OTIF</span>
+                    <strong>98%</strong>
+                    <div class="kpi-trend up"><i class="fa-solid fa-arrow-up"></i> +2.3%</div>
+                </div>
+                <div class="kpi">
+                    <span>Precisão Inventário</span>
+                    <strong>92%</strong>
+                    <div class="kpi-trend up"><i class="fa-solid fa-arrow-up"></i> +5.1%</div>
+                </div>
+                <div class="kpi">
+                    <span>Tempo Picking</span>
+                    <strong>11.2 min</strong>
+                    <div class="kpi-trend down"><i class="fa-solid fa-arrow-down"></i> +1.2 min</div>
+                </div>
+                <div class="kpi">
+                    <span>Avarias</span>
+                    <strong>1.5%</strong>
+                    <div class="kpi-trend down"><i class="fa-solid fa-arrow-down"></i> -1.5%</div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header"><h2><i class="fa-solid fa-chart-bar"></i> KPIs Principais</h2></div>
+                <div class="chart-grid">
+                    <div class="chart-card">
+                        <h3>📊 OTIF por Semana</h3>
+                        <div class="chart-container">
+                            <canvas id="otifChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>📦 Pedidos por Status</h3>
+                        <div class="chart-container">
+                            <canvas id="ordersChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+        });
+
+        new Chart(document.getElementById('otifChart'), {
+            type: 'line',
+            data: {
+                labels: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6'],
+                datasets: [{
+                    label: 'OTIF (%)',
+                    data: [85, 87, 89, 92, 95, 98],
+                    borderColor: '#38bdf8',
+                    backgroundColor: 'rgba(56, 189, 248, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: false, min: 80, max: 100, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('ordersChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Concluídos', 'Pendentes', 'Andamento'],
+                datasets: [{ data: [85, 10, 5], backgroundColor: ['#22c55e', '#f59e0b', '#38bdf8'] }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { color: '#e5e7eb' } } }
+            }
+        });
+    </script>
+</body>
+</html>

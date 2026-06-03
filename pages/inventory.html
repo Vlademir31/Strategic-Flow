@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Strategic Flow | Inventário Cíclico</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+ 
+    <script defer src="js/storage.js"></script>
+    <script defer src="js/app.js"></script>
+</head>
+<style>
+    .inventory-stats-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+    }
+    .kpi-value--large {
+        font-size: 3rem;
+        color: #2c3e50;
+    }
+    .kpi-text-muted {
+        color: #7f8c8d;
+        margin-top: 5px;
+    }
+    .kpi-trend {
+        margin-top: 10px;
+        font-size: 1.2rem;
+    }
+    .kpi-trend.positive {
+        color: #27ae60;
+    }
+    .kpi-trend.negative {
+        color: #c0392b;
+    }
+</style>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo"><i class="fa-solid fa-warehouse"></i></div>
+                <div class="brand-text">
+                    <h1>WMS Strategic Flow</h1>
+                    <small>Sistema de Gestão de Armazém</small>
+                </div>
+                <button class="toggle-btn" id="toggleSidebar" title="Alternar menu"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <nav class="menu">
+                <div class="menu-section">
+                    <span class="section-title">📊 Principal</span>
+                    <a href="dashboard.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                </div>
+                <div class="menu-section">
+                    <span class="section-title">📦 Operacional</span>
+                    <a href="receiving.html" class="menu-link"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                    <a href="picking.html" class="menu-link"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                    <a href="packing.html" class="menu-link"><i class="fa-solid fa-box"></i><span>Packing</span></a>
+                    <a href="shipping.html" class="menu-link"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                    <a href="inventory.html" class="menu-link active"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                </div>
+                <div class="menu-section">
+                    <span class="section-title">🎯 Administrativo</span>
+                    <a href="abc.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i><span>Curva ABC</span></a>
+                    <a href="5w2h.html" class="menu-link"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
+                    <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+                    <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+                    <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean 5S</span></a>
+                    <a href="gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="user-details">
+                        <span class="user-name">Operador</span>
+                        <span class="user-role">Inventário</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Menu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb">
+                        <a href="dashboard.html">WMS</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Inventário Cíclico</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="startInventoryCycle()">
+                        <i class="fa-solid fa-play"></i> Iniciar Ciclo
+                    </button>
+                    <button class="btn btn-outline" onclick="alert('Exportar inventário')">
+                        <i class="fa-solid fa-download"></i> Exportar
+                    </button>
+                </div>
+            </header>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h2><i class="fa-solid fa-clipboard-list"></i> Inventário Cíclico</h2>
+                    <p>Controle contínuo de estoque com contagens periódicas por classe ABC. Alta precisão sem parar operações.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value" id="accuracyValue">92%</span>
+                        <span class="stat-label">Precisão Atual</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="itemsCount">1,250</span>
+                        <span class="stat-label">Total SKUs</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="cycledToday">85</span>
+                        <span class="stat-label">Ciclados Hoje</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-filter"></i> Filtros de Inventário</h2>
+                </div>
+                <div class="grid filter-grid">
+                    <select class="select" id="filterClass" aria-label="Filtrar por classe">
+                        <option value="all">Todas as Classes</option>
+                        <option value="A">Classe A (Alto valor)</option>
+                        <option value="B">Classe B (Médio valor)</option>
+                        <option value="C">Classe C (Baixo valor)</option>
+                    </select>
+                    <select class="select" id="filterStatus" aria-label="Filtrar por status">
+                        <option value="all">Todos os Status</option>
+                        <option value="pending">Pendente</option>
+                        <option value="in_progress">Em Andamento</option>
+                        <option value="completed">Concluído</option>
+                        <option value="discrepancy">Divergência</option>
+                    </select>
+                    <select class="select" id="filterLocation" aria-label="Filtrar por localização">
+                        <option value="all">Todas as Localizações</option>
+                        <option value="A">Corredor A</option>
+                        <option value="B">Corredor B</option>
+                        <option value="C">Corredor C</option>
+                    </select>
+                    <button class="btn btn-outline" onclick="applyFilters()">
+                        <i class="fa-solid fa-search"></i> Aplicar Filtros
+                    </button>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-list"></i> Itens para Inventário</h2>
+                    <span class="kpi-badge neutral">Mostrando 20 de 1,250 itens</span>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>SKU</th>
+                                <th>Produto</th>
+                                <th>Classe</th>
+                                <th>Localização</th>
+                                <th>Qtd. Sistema</th>
+                                <th>Qtd. Contada</th>
+                                <th>Diferença</th>
+                                <th>Status</th>
+                                <th>Última Contagem</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryList">
+                            <tr>
+                                <td><strong>SKU-00142</strong></td>
+                                <td>Produto X Premium</td>
+                                <td><span class="class-a">A</span></td>
+                                <td>A-01-01</td>
+                                <td><strong>150</strong></td>
+                                <td><strong>148</strong></td>
+                                <td><span class="diff negative">-2</span></td>
+                                <td><span class="status discrepancy">Divergência</span></td>
+                                <td>03/06/2026 14:30</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="adjustInventory('SKU-00142', 148)">
+                                        <i class="fa-solid fa-check"></i> Ajustar
+                                    </button>
+                                    <button class="btn btn-outline btn-sm" onclick="recount('SKU-00142')">
+                                        <i class="fa-solid fa-rotate"></i> Recontar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SKU-00285</strong></td>
+                                <td>Produto Y Standard</td>
+                                <td><span class="class-b">B</span></td>
+                                <td>B-02-03</td>
+                                <td><strong>320</strong></td>
+                                <td><strong>320</strong></td>
+                                <td><span class="diff zero">0</span></td>
+                                <td><span class="status ok">Confrontado</span></td>
+                                <td>03/06/2026 13:15</td>
+                                <td>
+                                    <button class="btn btn-outline btn-sm" onclick="recount('SKU-00285')">
+                                        <i class="fa-solid fa-eye"></i> Visualizar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SKU-00456</strong></td>
+                                <td>Produto Z Economy</td>
+                                <td><span class="class-c">C</span></td>
+                                <td>C-03-05</td>
+                                <td><strong>890</strong></td>
+                                <td><strong>-</strong></td>
+                                <td><span class="diff pending">-</span></td>
+                                <td><span class="status warning">Pendente</span></td>
+                                <td>28/05/2026 10:00</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="countItem('SKU-00456')">
+                                        <i class="fa-solid fa-calculator"></i> Contar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SKU-00623</strong></td>
+                                <td>Produto A Especial</td>
+                                <td><span class="class-a">A</span></td>
+                                <td>A-01-02</td>
+                                <td><strong>75</strong></td>
+                                <td><strong>75</strong></td>
+                                <td><span class="diff zero">0</span></td>
+                                <td><span class="status ok">Confrontado</span></td>
+                                <td>03/06/2026 11:45</td>
+                                <td>
+                                    <button class="btn btn-outline btn-sm" onclick="recount('SKU-00623')">
+                                        <i class="fa-solid fa-eye"></i> Visualizar
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>SKU-00789</strong></td>
+                                <td>Produto B Básico</td>
+                                <td><span class="class-b">B</span></td>
+                                <td>B-02-01</td>
+                                <td><strong>445</strong></td>
+                                <td><strong>-</strong></td>
+                                <td><span class="diff pending">-</span></td>
+                                <td><span class="status warning">Pendente</span></td>
+                                <td>27/05/2026 16:20</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm" onclick="countItem('SKU-00789')">
+                                        <i class="fa-solid fa-calculator"></i> Contar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-bar"></i> Estatísticas do Inventário</h2>
+                </div>
+                <div class="grid">
+                    <article class="card">
+                        <h3>📊 Por Classe</h3>
+                        <div class="kpi-progress">
+                            <div class="kpi-progress-row">
+                                <span>Classe A</span>
+                                <span><strong>98%</strong></span>
+                            </div>
+                            <div class="progress-bar progress-bar--a"></div>
+                        </div>
+                        <div class="kpi-progress">
+                            <div class="kpi-progress-row">
+                                <span>Classe B</span>
+                                <span><strong>94%</strong></span>
+                            </div>
+                            <div class="progress-bar progress-bar--b"></div>
+                        </div>
+                        <div class="kpi-progress">
+                            <div class="kpi-progress-row">
+                                <span>Classe C</span>
+                                <span><strong>88%</strong></span>
+                            </div>
+                            <div class="progress-bar progress-bar--c"></div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <h3>📈 Evolução da Precisão</h3>
+                        <div class="inventory-stats-panel">
+                            <div class="kpi-value kpi-value--large">92%</div>
+                            <p class="kpi-text-muted">Precisão atual do estoque</p>
+                            <div class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-up"></i> +5.1% vs mês anterior
+                            </div>
+                        </div>
+                    </article>
+                    <article class="card">
+                        <h3>⚠️ Divergências</h3>
+                        <div class="inventory-rate-grid">
+                            <div class="inventory-rate-item">
+                                <div class="kpi-value kpi-value--danger">12</div>
+                                <p class="kpi-text-small">Itens com divergência</p>
+                            </div>
+                            <div class="inventory-rate-item">
+                                <div class="kpi-value kpi-value--warning">R$ 2.450</div>
+                                <p class="kpi-text-small">Valor em divergência</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function startInventoryCycle() {
+            alert('🔄 Iniciando ciclo de inventário cíclico....Itens priorizados:- Classe A: contagem diária - Classe B: contagem semanal - Classe C: contagem mensal Clique em "Contar" para contar cada item.');
+        }
+
+        function countItem(sku) {
+            const qty = prompt(`Contar ${sku}:
+Quantidade física:`, '');
+            if (qty) {
+                alert(`✅ Quantidade ${qty} registrada para ${sku}
+
+Próximo item: SKU-00789`);
+            }
+        }
+
+        function adjustInventory(sku, qty) {
+            if (confirm(`Ajustar estoque de ${sku} para ${qty} unidades?
+
+Isso criará um registro de ajuste de estoque.`)) {
+                alert(`✅ Estoque ajustado!
+SKU: ${sku}
+Nova quantidade: ${qty}
+
+Um PDCA foi criado para investigar a causa raiz.`);
+            }
+        }
+
+        function recount(sku) {
+            alert(`🔄 Recontando ${sku}...
+
+Verifique a quantidade física novamente e compares com o sistema.`);
+        }
+
+        function applyFilters() {
+            alert('🔍 Filtros aplicados!Mostrando itens conforme: Classe, Status e Localização selecionados.');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+            document.getElementById('mobileMenuBtn')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

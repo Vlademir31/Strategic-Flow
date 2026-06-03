@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Strategic Flow | Packing</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo"><i class="fa-solid fa-warehouse"></i></div>
+                <div class="brand-text"><h1>WMS Strategic Flow</h1><small>Sistema de Gestão</small></div>
+                <button class="toggle-btn" id="toggleSidebar" title="Toggle sidebar"><i class="fa-solid fa-bars"></i></button>
+            </div>
+            <nav class="menu">
+                <div class="menu-section"><span class="section-title">📦 Operacional</span>
+                    <a href="receiving.html" class="menu-link"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                    <a href="picking.html" class="menu-link"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                    <a href="packing.html" class="menu-link active"><i class="fa-solid fa-box"></i><span>Packing</span></a>
+                    <a href="shipping.html" class="menu-link"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                    <a href="inventory.html" class="menu-link"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                </div>
+                <div class="menu-section"><span class="section-title">🎯 Administrativo</span>
+                    <a href="dashboard.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                    <a href="abc.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i><span>Curva ABC</span></a>
+                    <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb"><a href="dashboard.html">WMS</a><i class="fa-solid fa-chevron-right"></i><span>Packing</span></div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="alert('Novo packing')"><i class="fa-solid fa-plus"></i> Novo Packing</button>
+                </div>
+            </header>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h2><i class="fa-solid fa-box"></i> Packing - Embalagem de Pedidos</h2>
+                    <p>Conferência final, seleção automática de caixa ideal, geração de etiquetas de envio e documentação.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat"><span class="stat-value">45</span><span class="stat-label">Pendentes</span></div>
+                    <div class="hero-stat"><span class="stat-value">210</span><span class="stat-label">Hoje</span></div>
+                    <div class="hero-stat"><span class="stat-value">3.2 min</span><span class="stat-label">Tempo Médio</span></div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header"><h2><i class="fa-solid fa-list"></i> Pedidos para Embalagem</h2></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Itens</th>
+                                <th>Peso Estimado</th>
+                                <th>Caixa Sugerida</th>
+                                <th>Valor</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>#PED-00142</strong></td>
+                                <td>5 itens</td>
+                                <td>2.5 kg</td>
+                                <td>Média (40x30x20)</td>
+                                <td>R$ 450,00</td>
+                                <td><span class="status warning">Aguardando</span></td>
+                                <td><button class="btn btn-primary btn-sm" onclick="packOrder('PED-00142')"><i class="fa-solid fa-check"></i> Embalar</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>#PED-00141</strong></td>
+                                <td>3 itens</td>
+                                <td>1.2 kg</td>
+                                <td>Pequena (30x20x15)</td>
+                                <td>R$ 280,00</td>
+                                <td><span class="status ok">Embalado</span></td>
+                                <td><button class="btn btn-outline btn-sm" onclick="printLabel('PED-00141')"><i class="fa-solid fa-print"></i> Etiqueta</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>#PED-00140</strong></td>
+                                <td>8 itens</td>
+                                <td>4.8 kg</td>
+                                <td>Grande (50x40x30)</td>
+                                <td>R$ 890,00</td>
+                                <td><span class="status warning">Aguardando</span></td>
+                                <td><button class="btn btn-primary btn-sm" onclick="packOrder('PED-00140')"><i class="fa-solid fa-check"></i> Embalar</button></td>
+                            </tr>
+                            <tr>
+                                <td><strong>#PED-00139</strong></td>
+                                <td>2 itens</td>
+                                <td>0.8 kg</td>
+                                <td>Pequena (30x20x15)</td>
+                                <td>R$ 150,00</td>
+                                <td><span class="status ok">Embalado</span></td>
+                                <td><button class="btn btn-outline btn-sm" onclick="printLabel('PED-00139')"><i class="fa-solid fa-print"></i> Etiqueta</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header"><h2><i class="fa-solid fa-boxes"></i> Tamanhos de Caixa Disponíveis</h2></div>
+                <div class="grid">
+                    <article class="card"><h3>📦 Pequena</h3><p>30x20x15 cm</p><p>Até 2 kg</p><div class="kpi-value">120 unidades</div></article>
+                    <article class="card"><h3>📦 Média</h3><p>40x30x20 cm</p><p>Até 5 kg</p><div class="kpi-value">85 unidades</div></article>
+                    <article class="card"><h3>📦 Grande</h3><p>50x40x30 cm</p><p>Até 10 kg</p><div class="kpi-value">45 unidades</div></article>
+                    <article class="card"><h3>📦 X-Grande</h3><p>60x50x40 cm</p><p>Até 15 kg</p><div class="kpi-value">20 unidades</div></article>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function packOrder(orderId) {
+            const confirmPack = confirm(`Embalar pedido #${orderId}?
+
+Itens:
+- Produto A (1x)
+- Produto B (2x)
+- Produto C (2x)
+
+Caixa sugerida: Média (40x30x20)`);
+            if (confirmPack) {
+                alert(`✅ Pedido #${orderId} embalado!
+
+Peso final: 2.5 kg
+Caixa: 40x30x20
+Próximo: Expedição`);
+            }
+        }
+
+        function printLabel(orderId) {
+            alert(`🖨️ Gerando etiqueta para #${orderId}...
+
+Transportadora: Jadex Express
+Código de rastreio: BR123456789SP
+
+Impressão iniciada!`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
