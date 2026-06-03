@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Strategic Flow | Recebimento</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- SIDEBAR (mesma do index.html) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo"><i class="fa-solid fa-warehouse"></i></div>
+                <div class="brand-text">
+                    <h1>WMS Strategic Flow</h1>
+                    <small>Sistema de Gestão de Armazém</small>
+                </div>
+                <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral" aria-label="Alternar barra lateral"><i class="fa-solid fa-bars"></i></button>
+            </div>
+
+            <nav class="menu">
+                <div class="menu-section">
+                    <span class="section-title">📊 Principal</span>
+                    <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                </div>
+
+                <div class="menu-section">
+                    <span class="section-title">📦 Operacional</span>
+                    <a href="receiving.html" class="menu-link active"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                    <a href="picking.html" class="menu-link"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                    <a href="packing.html" class="menu-link"><i class="fa-solid fa-box"></i><span>Packing</span></a>
+                    <a href="shipping.html" class="menu-link"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                    <a href="inventory.html" class="menu-link"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                </div>
+
+                <div class="menu-section">
+                    <span class="section-title">🎯 Administrativo</span>
+                    <a href="abc.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i><span>Curva ABC</span></a>
+                    <a href="bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
+                    <a href="pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
+                    <a href="lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean 5S</span></a>
+                    <a href="gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="user-details">
+                        <span class="user-name">Operador</span>
+                        <span class="user-role">Recebimento</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO -->
+        <main class="content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb">
+                        <a href="../index.html">WMS Strategic Flow</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Recebimento</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="openReceivingModal()">
+                        <i class="fa-solid fa-plus"></i> Novo Recebimento
+                    </button>
+                </div>
+            </header>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h2><i class="fa-solid fa-truck-receiver"></i> Recebimento de Mercadorias</h2>
+                    <p>Registrar entrada de mercadorias, conferir quantidade/qualidade, endereçar automaticamente e gerar etiquetas.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value" id="pendingReceiving">12</span>
+                        <span class="stat-label">Pendentes</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="todayReceiving">45</span>
+                        <span class="stat-label">Hoje</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="avgTime">8.5 min</span>
+                        <span class="stat-label">Tempo Médio</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-list"></i> Lista de Recebimentos</h2>
+                    <div class="filters">
+                        <select class="select" id="filterStatus">
+                            <option value="all">Todos os status</option>
+                            <option value="pending">Pendente</option>
+                            <option value="in_progress">Em Andamento</option>
+                            <option value="completed">Concluído</option>
+                        </select>
+                        <button class="btn btn-outline" onclick="refreshReceiving()">
+                            <i class="fa-solid fa-refresh"></i> Atualizar
+                        </button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fornecedor</th>
+                                <th>Produto</th>
+                                <th>Quantidade</th>
+                                <th>Lote</th>
+                                <th>Status</th>
+                                <th>Data</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="receivingList">
+                            <!-- Preenchido por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL DE RECEBIMENTO -->
+    <div id="receivingModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Novo Recebimento</h3>
+                <button class="close-btn" onclick="closeReceivingModal()">&times;</button>
+            </div>
+            <form id="receivingForm" onsubmit="saveReceiving(event)">
+                <div class="form-group">
+                    <label>Fornecedor *</label>
+                    <input type="text" id="supplier" required placeholder="Nome do fornecedor">
+                </div>
+                <div class="form-group">
+                    <label>Produto *</label>
+                    <input type="text" id="product" required placeholder="Nome do produto">
+                </div>
+                <div class="form-group">
+                    <label>Quantidade *</label>
+                    <input type="number" id="quantity" required min="1" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label>Lote</label>
+                    <input type="text" id="lot" placeholder="Número do lote (opcional)">
+                </div>
+                <div class="form-group">
+                    <label>Validade</label>
+                    <input type="date" id="expiryDate">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="closeReceivingModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-save"></i> Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Carregar recebimentos
+        function loadReceiving() {
+            const receivingList = Storage.getReceiving();
+            const tbody = document.getElementById('receivingList');
+            
+            if (!receivingList || receivingList.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;">Nenhum recebimento cadastrado. Clique em "Novo Recebimento" para adicionar.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = receivingList.map(item => `
+                <tr>
+                    <td><strong>#${item.id.toString().slice(-6)}</strong></td>
+                    <td>${item.supplier}</td>
+                    <td>${item.product}</td>
+                    <td><strong>${item.quantity}</strong></td>
+                    <td>${item.lot || '-'}</td>
+                    <td><span class="status ${item.status}">${item.status === 'completed' ? 'Concluído' : item.status === 'in_progress' ? 'Em Andamento' : 'Pendente'}</span></td>
+                    <td>${formatDate(item.createdAt)}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="viewReceiving(${item.id})">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" onclick="completeReceiving(${item.id})">
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openReceivingModal() {
+            document.getElementById('receivingModal').style.display = 'flex';
+        }
+
+        function closeReceivingModal() {
+            document.getElementById('receivingModal').style.display = 'none';
+            document.getElementById('receivingForm').reset();
+        }
+
+        function saveReceiving(event) {
+            event.preventDefault();
+            
+            const item = {
+                supplier: document.getElementById('supplier').value,
+                product: document.getElementById('product').value,
+                quantity: parseInt(document.getElementById('quantity').value),
+                lot: document.getElementById('lot').value,
+                expiryDate: document.getElementById('expiryDate').value,
+                status: 'pending'
+            };
+
+            Storage.addReceiving(item);
+            closeReceivingModal();
+            loadReceiving();
+            showNotification('✅ Recebimento cadastrado com sucesso!');
+        }
+
+        function completeReceiving(id) {
+            const data = Storage.getData();
+            const item = data.receiving.find(r => r.id === id);
+            if (item) {
+                item.status = 'completed';
+                Storage.saveData(data);
+                loadReceiving();
+                showNotification('✅ Recebimento concluído!');
+            }
+        }
+
+        function refreshReceiving() {
+            loadReceiving();
+            showNotification('🔄 Lista atualizada!');
+        }
+
+        function showNotification(message) {
+            alert(message);
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            loadReceiving();
+            document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>

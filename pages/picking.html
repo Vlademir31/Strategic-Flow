@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WMS Strategic Flow | Picking</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script defer src="../js/storage.js"></script>
+    <script defer src="../js/app.js"></script>
+</head>
+<body>
+    <div class="app">
+        <!-- SIDEBAR (mesma structure) -->
+        <aside class="sidebar" id="sidebar">
+            <div class="brand">
+                <div class="logo"><i class="fa-solid fa-warehouse"></i></div>
+                <div class="brand-text">
+                    <h1>WMS Strategic Flow</h1>
+                    <small>Sistema de Gestão de Armazém</small>
+                </div>
+            </div>
+            <nav class="menu">
+                <div class="menu-section">
+                    <span class="section-title">📦 Operacional</span>
+                    <a href="receiving.html" class="menu-link"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                    <a href="picking.html" class="menu-link active"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                    <a href="packing.html" class="menu-link"><i class="fa-solid fa-box"></i><span>Packing</span></a>
+                    <a href="shipping.html" class="menu-link"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                    <a href="inventory.html" class="menu-link"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fa-solid fa-bars"></i></button>
+                    <div class="breadcrumb">
+                        <a href="../index.html">WMS Strategic Flow</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Picking</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="createPickingOrder()">
+                        <i class="fa-solid fa-plus"></i> Novo Pedido
+                    </button>
+                </div>
+            </header>
+
+            <section class="hero">
+                <div class="hero-content">
+                    <h2><i class="fa-solid fa-basket-shopping"></i> Picking - Separação de Pedidos</h2>
+                    <p>Gerar listas de separação otimizadas, rotas mais curtas, conferir com código de barras.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value" id="pendingOrders">8</span>
+                        <span class="stat-label">Pendentes</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="todayOrders">32</span>
+                        <span class="stat-label">Hoje</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="avgPickingTime">11.2 min</span>
+                        <span class="stat-label">Tempo Médio</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-list"></i> Pedidos para Picking</h2>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Pedido</th>
+                                <th>Cliente</th>
+                                <th>Itens</th>
+                                <th>Prioridade</th>
+                                <th>Status</th>
+                                <th>Criado</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pickingList">
+                            <!-- Preenchido por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Dados simulados
+        const pickingOrders = [
+            { id: 1, client: 'Loja Central', items: 5, priority: 'high', status: 'pending', created: '2026-06-03' },
+            { id: 2, client: 'Loja Norte', items: 3, priority: 'medium', status: 'pending', created: '2026-06-03' },
+            { id: 3, client: 'E-commerce', items: 8, priority: 'high', status: 'in_progress', created: '2026-06-02' }
+        ];
+
+        function loadPicking() {
+            const tbody = document.getElementById('pickingList');
+            tbody.innerHTML = pickingOrders.map(order => `
+                <tr>
+                    <td><strong>#PED-${order.id.toString().padStart(5, '0')}</strong></td>
+                    <td>${order.client}</td>
+                    <td><span class="badge">${order.items} itens</span></td>
+                    <td><span class="priority ${order.priority}">${order.priority === 'high' ? 'Alta' : order.priority === 'medium' ? 'Média' : 'Baixa'}</span></td>
+                    <td><span class="status ${order.status}">${order.status === 'pending' ? 'Pendente' : order.status === 'in_progress' ? 'Em Andamento' : 'Concluído'}</span></td>
+                    <td>${formatDate(order.created)}</td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" onclick="startPicking(${order.id})">
+                            <i class="fa-solid fa-play"></i> Iniciar
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function startPicking(id) {
+            alert(`🚀 Iniciando picking do pedido #${id}
+
+Rota otimizada:
+1. A-01-01 (Produto A) - 3 unidades
+2. B-02-03 (Produto B) - 2 unidades
+3. C-03-01 (Produto C) - 1 unidade
+
+Tempo estimado: 11 min`);
+        }
+
+        function createPickingOrder() {
+            alert('📋 Formulário de novo pedido de picking');
+        }
+
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('pt-BR');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadPicking);
+    </script>
+
+    
+</body>
+</html>
