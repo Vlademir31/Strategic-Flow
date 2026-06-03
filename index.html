@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fluxo Estratégico | Dashboard</title>
+    <title>WMS Strategic Flow System | Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script defer src="js/storage.js"></script>
     <script defer src="js/export.js"></script>
     <script defer src="js/dashboard.js"></script>
@@ -13,69 +14,345 @@
 </head>
 <body>
     <div class="app">
+        <!-- BARRA LATERAL -->
         <aside class="sidebar" id="sidebar">
             <div class="brand">
-                <h1>Fluxo Estratégico</h1>
-                <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+                <div class="logo">
+                    <i class="fa-solid fa-warehouse"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>WMS Strategic Flow</h1>
+                    <small>Sistema de Gestão de Armazém</small>
+                </div>
+                <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
             </div>
 
             <nav class="menu">
-                <a href="index.html" class="menu-link active"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
-                <a href="pages/bpm.html" class="menu-link"><i class="fa-solid fa-diagram-project"></i><span>BPM</span></a>
-                <a href="pages/pdca.html" class="menu-link"><i class="fa-solid fa-arrows-rotate"></i><span>PDCA</span></a>
-                <a href="pages/lean.html" class="menu-link"><i class="fa-solid fa-leaf"></i><span>Lean</span></a>
-                <a href="pages/w2h.html" class="menu-link"><i class="fa-solid fa-list-check"></i><span>5W2H</span></a>
-                <a href="pages/abc.html" class="menu-link"><i class="fa-solid fa-boxes-stacked"></i><span>Curva ABC</span></a>
-                <a href="pages/gantt.html" class="menu-link"><i class="fa-solid fa-chart-gantt"></i><span>Gantt</span></a>
+                <div class="menu-section">
+                    <span class="section-title">📊 Principal</span>
+                    <a href="index.html" class="menu-link active">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <span class="section-title">📦 Operacional</span>
+                    <a href="pages/receiving.html" class="menu-link">
+                        <i class="fa-solid fa-truck-receiver"></i>
+                        <span>Recebimento</span>
+                    </a>
+                    <a href="pages/picking.html" class="menu-link">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <span>Picking</span>
+                    </a>
+                    <a href="pages/packing.html" class="menu-link">
+                        <i class="fa-solid fa-box"></i>
+                        <span>Packing</span>
+                    </a>
+                    <a href="pages/shipping.html" class="menu-link">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Expedição</span>
+                    </a>
+                    <a href="pages/inventory.html" class="menu-link">
+                        <i class="fa-solid fa-clipboard-list"></i>
+                        <span>Inventário</span>
+                    </a>
+                </div>
+
+                <div class="menu-section">
+                    <span class="section-title">🎯 Administrativo</span>
+                    <a href="pages/abc.html" class="menu-link">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Curva ABC</span>
+                    </a>
+                    <a href="pages/bpm.html" class="menu-link">
+                        <i class="fa-solid fa-diagram-project"></i>
+                        <span>BPM</span>
+                    </a>
+                    <a href="pages/pdca.html" class="menu-link">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>PDCA</span>
+                    </a>
+                    <a href="pages/lean.html" class="menu-link">
+                        <i class="fa-solid fa-leaf"></i>
+                        <span>Lean 5S</span>
+                    </a>
+                    <a href="pages/gantt.html" class="menu-link">
+                        <i class="fa-solid fa-chart-gantt"></i>
+                        <span>Gantt</span>
+                    </a>
+                </div>
             </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">Administrador</span>
+                        <span class="user-role">Gerente de Armazém</span>
+                    </div>
+                </div>
+            </div>
         </aside>
 
+        <!-- CONTEÚDO PRINCIPAL -->
         <main class="content">
+            <!-- CABEÇALHO -->
+            <header class="content-header">
+                <div class="header-left">
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu" aria-label="Abrir menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                    <div class="breadcrumb">
+                        <span>WMS Strategic Flow</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Dashboard</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" placeholder="Buscar produto, pedido, lote...">
+                    </div>
+                    <button class="btn btn-outline" id="exportBtn">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Exportar</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- HERO SECTION -->
             <section class="hero">
-                <h2>Gestão de processos logísticos do armazém</h2>
-                <p>Painel central para monitorar processos, indicadores, perdas, ações e áreas de gestão.</p>
+                <div class="hero-content">
+                    <h2>Gestão de Processos do Armazém</h2>
+                    <p>Painel central para monitorar processos operacionais, indicadores (KPIs), perdas, ações corretivas e áreas de gestão.</p>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-value" id="totalOrders">142</span>
+                        <span class="stat-label">Pedidos Hoje</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="otifValue">87%</span>
+                        <span class="stat-label">OTIF</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-value" id="accuracyValue">92%</span>
+                        <span class="stat-label">Precisão Inventário</span>
+                    </div>
+                </div>
             </section>
 
-            <section class="kpi-grid" id="kpiGrid"></section>
+            <!-- KPIs PRINCIPAIS -->
+            <section class="kpi-grid" id="kpiGrid">
+                <!-- KPI 1: OTIF -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon otif">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        <span class="kpi-badge positive">OTIF</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiOtif">87%</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: 95%</span>
+                            <span class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-up"></i> +2.3%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 87%"></div>
+                    </div>
+                </article>
 
+                <!-- KPI 2: Precisão Inventário -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon accuracy">
+                            <i class="fa-solid fa-clipboard-check"></i>
+                        </div>
+                        <span class="kpi-badge neutral">Inventário</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiAccuracy">92%</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: 98%</span>
+                            <span class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-up"></i> +5.1%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 92%"></div>
+                    </div>
+                </article>
+
+                <!-- KPI 3: Tempo de Picking -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon picking">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                        <span class="kpi-badge warning">Picking</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiPicking">11.2 min</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: &lt; 10 min</span>
+                            <span class="kpi-trend negative">
+                                <i class="fa-solid fa-arrow-down"></i> +1.2 min
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 70%"></div>
+                    </div>
+                </article>
+
+                <!-- KPI 4: Avarias -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon damages">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <span class="kpi-badge danger">Avarias</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiDamages">1.5%</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: &lt; 2%</span>
+                            <span class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-down"></i> -1.5%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 15%"></div>
+                    </div>
+                </article>
+
+                <!-- KPI 5: Produtividade -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon productivity">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <span class="kpi-badge positive">Produtividade</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiProductivity">85 ped/h</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: 80 ped/h</span>
+                            <span class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-up"></i> +12%
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 85%"></div>
+                    </div>
+                </article>
+
+                <!-- KPI 6: Lead Time -->
+                <article class="kpi-card">
+                    <div class="kpi-header">
+                        <div class="kpi-icon leadtime">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <span class="kpi-badge neutral">Lead Time</span>
+                    </div>
+                    <div class="kpi-body">
+                        <div class="kpi-value" id="kpiLeadTime">14.5 h</div>
+                        <div class="kpi-meta">
+                            <span class="kpi-target">Meta: &lt; 24 h</span>
+                            <span class="kpi-trend positive">
+                                <i class="fa-solid fa-arrow-down"></i> -4 h
+                            </span>
+                        </div>
+                    </div>
+                    <div class="kpi-progress">
+                        <div class="progress-bar" style="width: 60%"></div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ÁREAS DE GESTÃO -->
             <section class="panel">
-                <h2>Áreas de gestão</h2>
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-sitemap"></i> Áreas de Gestão</h2>
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fa-solid fa-plus"></i> Novo Processo
+                    </button>
+                </div>
                 <div class="grid">
                     <article class="card">
-                        <div class="icon"><i class="fa-solid fa-diagram-project"></i></div>
+                        <div class="icon bpm">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
                         <h3>BPM</h3>
                         <p>Mapeamento ponta a ponta dos processos do armazém.</p>
+                        <div class="card-footer">
+                            <a href="pages/bpm.html" class="card-link">Acessar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
                     </article>
                     <article class="card">
-                        <div class="icon"><i class="fa-solid fa-arrows-rotate"></i></div>
+                        <div class="icon pdca">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                        </div>
                         <h3>PDCA</h3>
-                        <p>Cadastro, análise, perdas, plano de ação e indicadores</p>
+                        <p>Análise de perdas, plano de ação e indicadores.</p>
+                        <div class="card-footer">
+                            <a href="pages/pdca.html" class="card-link">Acessar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
                     </article>
                     <article class="card">
-                        <div class="icon"><i class="fa-solid fa-leaf"></i></div>
-                        <h3>Lean</h3>
-                        <p>5S, desperdícios, melhoria contínua e eficiência operacional.</p>
+                        <div class="icon lean">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <h3>Lean 5S</h3>
+                        <p>5S, desperdícios, melhoria contínua.</p>
+                        <div class="card-footer">
+                            <a href="pages/lean.html" class="card-link">Acessar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
                     </article>
                     <article class="card">
-                        <div class="icon"><i class="fa-solid fa-list-check"></i></div>
-                        <h3>5W2H</h3>
-                        <p>Planos de ação práticos com responsável e prazo.</p>
-                    </article>
-                    <article class="card">
-                        <div class="icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+                        <div class="icon abc">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
                         <h3>Curva ABC</h3>
                         <p>Classificação de itens por giro, valor ou criticidade.</p>
+                        <div class="card-footer">
+                            <a href="pages/abc.html" class="card-link">Acessar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
                     </article>
                     <article class="card">
-                        <div class="icon"><i class="fa-solid fa-chart-gantt"></i></div>
+                        <div class="icon gantt">
+                            <i class="fa-solid fa-chart-gantt"></i>
+                        </div>
                         <h3>Gantt</h3>
-                        <p>Controle de cronograma de projetos e melhorias.</p>
+                        <p>Controle de cronograma de projetos.</p>
+                        <div class="card-footer">
+                            <a href="pages/gantt.html" class="card-link">Acessar <i class="fa-solid fa-arrow-right"></i></a>
+                        </div>
                     </article>
                 </div>
             </section>
 
+            <!-- RESUMO RÁPIDO -->
             <section class="panel">
-                <h2>Resumo rápido</h2>
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-table"></i> Resumo Rápido</h2>
+                    <button class="btn btn-outline btn-sm" id="refreshBtn">
+                        <i class="fa-solid fa-refresh"></i> Atualizar
+                    </button>
+                </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -85,77 +362,48 @@
                                 <th>Meta</th>
                                 <th>Atual</th>
                                 <th>Status</th>
+                                <th>Tendência</th>
                             </tr>
                         </thead>
-                        <tbody id="dashboardSummary"></tbody>
+                        <tbody id="dashboardSummary">
+                            <!-- Preenchido por JS -->
+                        </tbody>
                     </table>
                 </div>
             </section>
 
-            <h2>Dashboard integrado do armazém</h2>
-                <p>Visão executiva com BPM, PDCA e Lean, incluindo tendência dos indicadores e status geral da operação.</p>
-            </section>
-
-            <section class="kpi-grid" id="kpiGrid"></section>
-
+            <!-- DASHBOARD DE GRÁFICOS -->
             <section class="panel">
-                <h2>Tendência dos KPIs</h2>
-                <div class="grid">
-                    <article class="card">
-                        <h3>Processos BPM</h3>
-                        <p id="trendBpm">Sem dados</p>
-                        <small class="small" id="trendBpmDetail"></small>
-                    </article>
-                    <article class="card">
-                        <h3>PDCA - Planos em aberto</h3>
-                        <p id="trendPdca">Sem dados</p>
-                        <small class="small" id="trendPdcaDetail"></small>
-                    </article>
-                    <article class="card">
-                        <h3>Lean - 5S médio</h3>
-                        <p id="trendLean">Sem dados</p>
-                        <small class="small" id="trendLeanDetail"></small>
-                    </article>
-                    <article class="card">
-                        <h3>Perdas operacionais</h3>
-                        <p id="trendLosses">Sem dados</p>
-                        <small class="small" id="trendLossesDetail"></small>
-                    </article>
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-pie"></i> Dashboard de KPIs</h2>
+                    <select class="select" id="periodSelect" aria-label="Selecionar período">
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="30" selected>Últimos 30 dias</option>
+                        <option value="90">Últimos 90 dias</option>
+                    </select>
                 </div>
-            </section>
-             <h2>Visão analítica</h2>
                 <div class="chart-grid">
                     <article class="chart-card">
                         <h3>Evolução dos KPIs</h3>
-                        <canvas id="lineChart"></canvas>
+                        <div class="chart-container">
+                            <canvas id="lineChart"></canvas>
+                        </div>
                     </article>
                     <article class="chart-card">
-                        <h3>Distribuição geral</h3>
-                        <canvas id="donutChart"></canvas>
+                        <h3>Distribuição Geral</h3>
+                        <div class="chart-container">
+                            <canvas id="donutChart"></canvas>
+                        </div>
+                    </article>
+                    <article class="chart-card full-width">
+                        <h3>Pedidos por Módulo</h3>
+                        <div class="chart-container">
+                            <canvas id="barChart"></canvas>
+                        </div>
                     </article>
                 </div>
-            <section class="panel">
-                <h2>Resumo integrado</h2>
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Módulo</th>
-                                <th>Indicador</th>
-                                <th>Atual</th>
-                                <th>Meta</th>
-                                <th>Tendência</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="dashboardSummary"></tbody>
-                    </table>
-                </div>
             </section>
-
-           
         </main>
-        
     </div>
 </body>
 </html>
