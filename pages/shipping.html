@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WMS Strategic Flow | Expedição</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script defer src="js/storage.js"></script>
+    <script defer src="js/app.js"></script>
+    
 </head>
+
 <body>
     <div class="app">
         <aside class="sidebar" id="sidebar">
             <div class="brand">
                 <div class="logo"><i class="fa-solid fa-warehouse"></i></div>
-                <div class="brand-text"><h1>WMS Strategic Flow</h1><small>Sistema de Gestão</small></div>
-                <button type="button" class="toggle-btn" id="toggleSidebar" title="Alternar menu"><i class="fa-solid fa-bars"></i></button>
+                <div class="brand-text">
+                    <h1>WMS Strategic Flow</h1>
+                </div>
+                <button type="button" class="toggle-btn" id="toggleSidebar" title="Alternar menu"><i
+                        class="fa-solid fa-bars"></i></button>
             </div>
             <nav class="menu">
                 <div class="menu-section"><span class="section-title">📊 Principal</span>
-                    <a href="dashboard.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                    <a href="dashboard.html" class="menu-link"><i
+                            class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
                 </div>
                 <div class="menu-section"><span class="section-title">📦 Operacional</span>
-                    <a href="receiving.html" class="menu-link"><i class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
-                    <a href="picking.html" class="menu-link"><i class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
+                    <a href="receiving.html" class="menu-link"><i
+                            class="fa-solid fa-truck-receiver"></i><span>Recebimento</span></a>
+                    <a href="picking.html" class="menu-link"><i
+                            class="fa-solid fa-basket-shopping"></i><span>Picking</span></a>
                     <a href="packing.html" class="menu-link"><i class="fa-solid fa-box"></i><span>Packing</span></a>
-                    <a href="shipping.html" class="menu-link active"><i class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
-                    <a href="inventory.html" class="menu-link"><i class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
+                    <a href="shipping.html" class="menu-link active"><i
+                            class="fa-solid fa-truck-fast"></i><span>Expedição</span></a>
+                    <a href="inventory.html" class="menu-link"><i
+                            class="fa-solid fa-clipboard-list"></i><span>Inventário</span></a>
                 </div>
                 <div class="menu-section"><span class="section-title">🎯 Administrativo</span>
                     <a href="abc.html" class="menu-link"><i class="fa-solid fa-chart-pie"></i><span>Curva ABC</span></a>
@@ -39,30 +50,32 @@
         </aside>
 
         <main class="content">
-            <header class="content-header">
-                <div class="header-left">
-                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
-                    <div class="breadcrumb"><a href="dashboard.html">WMS</a><i class="fa-solid fa-chevron-right"></i><span>Expedição</span></div>
-                </div>
+            
                 <div class="header-right">
-                    <button class="btn btn-primary" onclick="alert('Novo despacho')"><i class="fa-solid fa-plus"></i> Novo Despacho</button>
+                    <button class="btn btn-primary" onclick="alert('Novo despacho')"><i class="fa-solid fa-plus"></i>
+                        Novo Despacho</button>
                 </div>
             </header>
 
             <section class="hero">
                 <div class="hero-content">
                     <h2><i class="fa-solid fa-truck-fast"></i> Expedição - Despacho de Pedidos</h2>
-                    <p>Agendar carregamento, gerar manifesto de carga, rastrear entregas e integrar com transportadoras.</p>
+                    <p>Agendar carregamento, gerar manifesto de carga, rastrear entregas e integrar com transportadoras.
+                    </p>
                 </div>
                 <div class="hero-stats">
-                    <div class="hero-stat"><span class="stat-value">28</span><span class="stat-label">Pendentes</span></div>
+                    <div class="hero-stat"><span class="stat-value">28</span><span class="stat-label">Pendentes</span>
+                    </div>
                     <div class="hero-stat"><span class="stat-value">156</span><span class="stat-label">Hoje</span></div>
-                    <div class="hero-stat"><span class="stat-value">98%</span><span class="stat-label">No Prazo</span></div>
+                    <div class="hero-stat"><span class="stat-value">98%</span><span class="stat-label">No Prazo</span>
+                    </div>
                 </div>
             </section>
 
             <section class="panel">
-                <div class="panel-header"><h2><i class="fa-solid fa-list"></i> Pedidos para Expedição</h2></div>
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-list"></i> Pedidos para Expedição</h2>
+                </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -86,7 +99,8 @@
                                 <td>2.5 kg</td>
                                 <td><span class="status ok">Pronto</span></td>
                                 <td><span class="priority high">Alta</span></td>
-                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00142')"><i class="fa-solid fa-check"></i> Despachar</button></td>
+                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00142')"><i
+                                            class="fa-solid fa-check"></i> Despachar</button></td>
                             </tr>
                             <tr>
                                 <td><strong>#PED-00141</strong></td>
@@ -96,7 +110,8 @@
                                 <td>1.2 kg</td>
                                 <td><span class="status warning">Em Preparo</span></td>
                                 <td><span class="priority medium">Média</span></td>
-                                <td><button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Ver</button></td>
+                                <td><button class="btn btn-outline btn-sm"><i class="fa-solid fa-eye"></i> Ver</button>
+                                </td>
                             </tr>
                             <tr>
                                 <td><strong>#PED-00140</strong></td>
@@ -106,7 +121,8 @@
                                 <td>4.8 kg</td>
                                 <td><span class="status ok">Pronto</span></td>
                                 <td><span class="priority high">Alta</span></td>
-                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00140')"><i class="fa-solid fa-check"></i> Despachar</button></td>
+                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00140')"><i
+                                            class="fa-solid fa-check"></i> Despachar</button></td>
                             </tr>
                             <tr>
                                 <td><strong>#PED-00139</strong></td>
@@ -116,7 +132,8 @@
                                 <td>3.1 kg</td>
                                 <td><span class="status ok">Pronto</span></td>
                                 <td><span class="priority medium">Média</span></td>
-                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00139')"><i class="fa-solid fa-check"></i> Despachar</button></td>
+                                <td><button class="btn btn-primary btn-sm" onclick="dispatch('PED-00139')"><i
+                                            class="fa-solid fa-check"></i> Despachar</button></td>
                             </tr>
                         </tbody>
                     </table>
@@ -124,23 +141,38 @@
             </section>
 
             <section class="panel">
-                <div class="panel-header"><h2><i class="fa-solid fa-chart-line"></i> KPIs de Expedição</h2></div>
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> KPIs de Expedição</h2>
+                </div>
                 <div class="grid">
-                    <article class="card"><h3>📦 OTIF</h3><div class="kpi-value">98%</div><p class="kpi-meta">Meta: 95% | <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +3%</span></p></article>
-                    <article class="card"><h3>⏱️ Lead Time</h3><div class="kpi-value">14.5 h</div><p class="kpi-meta">Meta: < 24h | <span class="kpi-trend positive"><i class="fa-solid fa-arrow-down"></i> -4h</span></p></article>
-                    <article class="card"><h3>🚚 Pedidos/Hora</h3><div class="kpi-value">12</div><p class="kpi-meta">Meta: 10 | <span class="kpi-trend positive"><i class="fa-solid fa-arrow-up"></i> +20%</span></p></article>
-                    <article class="card"><h3>⚠️ Atrasos</h3><div class="kpi-value">2%</div><p class="kpi-meta">Meta: < 5% | <span class="kpi-trend positive"><i class="fa-solid fa-arrow-down"></i> -3%</span></p></article>
+                    <article class="card">
+                        <h3>📦 OTIF</h3>
+                        <div class="kpi-value">98%</div>
+                        <p class="kpi-meta">Meta: 95% | <span class="kpi-trend positive"><i
+                                    class="fa-solid fa-arrow-up"></i> +3%</span></p>
+                    </article>
+                    <article class="card">
+                        <h3>⏱️ Lead Time</h3>
+                        <div class="kpi-value">14.5 h</div>
+                        <p class="kpi-meta">Meta: < 24h | <span class="kpi-trend positive"><i
+                                    class="fa-solid fa-arrow-down"></i> -4h</span></p>
+                    </article>
+                    <article class="card">
+                        <h3>🚚 Pedidos/Hora</h3>
+                        <div class="kpi-value">12</div>
+                        <p class="kpi-meta">Meta: 10 | <span class="kpi-trend positive"><i
+                                    class="fa-solid fa-arrow-up"></i> +20%</span></p>
+                    </article>
+                    <article class="card">
+                        <h3>⚠️ Atrasos</h3>
+                        <div class="kpi-value">2%</div>
+                        <p class="kpi-meta">Meta: < 5% | <span class="kpi-trend positive"><i
+                                    class="fa-solid fa-arrow-down"></i> -3%</span></p>
+                    </article>
                 </div>
             </section>
         </main>
     </div>
-
-    <style>
-        .priority { padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; }
-        .priority.high { background: #fee2e2; color: #ef4444; }
-        .priority.medium { background: #fef3c7; color: #f59e0b; }
-        .priority.low { background: #d1fae5; color: #10b981; }
-    </style>
 
     <script>
         function dispatch(orderId) {
@@ -165,4 +197,5 @@ Prevista: 05/06/2026`);
         });
     </script>
 </body>
+
 </html>

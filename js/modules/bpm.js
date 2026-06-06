@@ -169,3 +169,100 @@ document.addEventListener('keydown', e => {
 });
 
 refresh();
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('cycleForm');
+  const list = document.getElementById('cycleList');
+  const stepSelect = document.getElementById('step');
+  const progress = document.getElementById('cycleProgress');
+  const status = document.getElementById('cycleStatus');
+  const cards = document.querySelectorAll('[data-step-card]');
+
+  if (!form || !list) return;
+
+  renderCycleList();
+  updateCycleView(stepSelect.value);
+
+  stepSelect.addEventListener('change', () => updateCycleView(stepSelect.value));
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const data = Storage.get();
+    data.bpmCycle = data.bpmCycle || [];
+
+    const payload = Object.fromEntries(new FormData(form).entries());
+    payload.id = crypto.randomUUID();
+    payload.createdAt = new Date().toISOString();
+
+    data.bpmCycle.unshift(payload);
+    Storage.set(data);
+
+    form.reset();
+    stepSelect.value = '1';
+    updateCycleView('1');
+    renderCycleList();
+
+    if (typeof showNotification === 'function') {
+      showNotification('Etapa salva com sucesso', 'success');
+    }
+  });
+
+  function renderCycleList() {
+    const data = Storage.get();
+    const items = data.bpmCycle || [];
+
+    if (!items.length) {
+      list.innerHTML = '<div class="empty-state">Nenhuma etapa registrada ainda.</div>';
+      return;
+    }
+
+    list.innerHTML = items.map(item => `
+      <div class="row-item">
+        <div>
+          <strong>${escapeHtml(stepName(item.step))}</strong>
+          <p>${escapeHtml(item.process || '')}</p>
+          <small>
+            ${escapeHtml(item.owner || '-')} • ${escapeHtml(item.kpi || '-')} • ${escapeHtml(item.createdAt ? formatDateTime(item.createdAt) : '')}
+          </small>
+        </div>
+        <span>${escapeHtml(item.status || '')}</span>
+      </div>
+    `).join('');
+  }
+
+  function updateCycleView(step) {
+    const value = Number(step);
+    const percent = value * 25;
+
+    if (progress) progress.style.width = `${percent}%`;
+    if (status) status.textContent = `Etapa ${value} de 4: ${stepName(step)}`;
+
+    cards.forEach(card => {
+      card.classList.toggle('active', card.dataset.stepCard === String(step));
+    });
+  }
+});
+
+function stepName(step) {
+  const map = {
+    '1': 'Mapeamento',
+    '2': 'Padronização',
+    '3': 'Análise e melhoria',
+    '4': 'Monitoramento'
+  };
+  return map[String(step)] || 'Mapeamento';
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>'"]/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    "'": '&#39;',
+    '"': '&quot;'
+  }[char]));
+}
+
+function formatDateTime(value) {
+  return new Date(value).toLocaleString('pt-BR');
+}

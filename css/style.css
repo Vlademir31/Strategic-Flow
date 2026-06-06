@@ -33,7 +33,7 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: 
+    background:
         radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 28%),
         linear-gradient(180deg, #020617 0%, #0f172a 100%);
     color: var(--text);
@@ -149,7 +149,8 @@ body {
     gap: 18px;
 }
 
-.card, .panel {
+.card,
+.panel {
     background: rgba(17, 24, 39, 0.96);
     border: 1px solid var(--border);
     border-radius: var(--radius);
@@ -211,7 +212,8 @@ table {
     margin-top: 10px;
 }
 
-th, td {
+th,
+td {
     padding: 10px 8px;
     border-bottom: 1px solid var(--border);
     text-align: left;
@@ -264,7 +266,9 @@ th, td {
     gap: 6px;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
     width: 100%;
     padding: 12px 14px;
     border-radius: 12px;
@@ -349,7 +353,8 @@ textarea {
     margin-bottom: 6px;
 }
 
-.form-group input, .form-group select {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid var(--border);
@@ -713,14 +718,16 @@ textarea {
     background: #0f172a;
 }
 
-.gantt-head, .gantt-row {
+.gantt-head,
+.gantt-row {
     display: grid;
     grid-template-columns: 220px repeat(auto-fit, 28px);
     align-items: center;
     gap: 0;
 }
 
-.gantt-day, .gantt-task-col {
+.gantt-day,
+.gantt-task-col {
     padding: 8px;
     font-size: .85rem;
     border-bottom: 1px solid rgba(148, 163, 184, 0.12);
@@ -776,22 +783,47 @@ textarea {
     .sidebar {
         width: 88px;
     }
-    
-    .brand h1, .menu-link span {
+
+    .brand h1,
+    .menu-link span {
         display: none;
     }
 }
-
+/* Para telas menores, reduzimos os espaçamentos e fontes para melhor legibilidade */
 @media (max-width: 720px) {
     .content {
         padding: 18px;
     }
-    
+
     .hero {
         padding: 22px;
     }
-    
+
     .hero h2 {
         font-size: 1.4rem;
     }
+}
+/* ========================================
+   PRIORITY, STATUS, BADGES (RECEIVING, PICKING, PACKING, SHIPPING)
+   ======================================== */
+.priority {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.priority.high {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.priority.medium {
+    background: #fef3c7;
+    color: #f59e0b;
+}
+
+.priority.low {
+    background: #d1fae5;
+    color: #10b981;
 }

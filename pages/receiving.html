@@ -19,13 +19,7 @@
                     <h1>WMS Strategic Flow</h1>
                     <small>Sistema de Gestão de Armazém</small>
                 </div>
-                <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral" aria-label="Alternar barra lateral"><i class="fa-solid fa-bars"></i></button>
-            </div>
-
-            <nav class="menu">
-                <div class="menu-section">
-                    <span class="section-title">📊 Principal</span>
-                    <a href="../index.html" class="menu-link"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+                    <button class="toggle-btn" id="toggleSidebar" title="Alternar barra lateral" aria-label="Alternar barra lateral"><i class="fa-solid fa-bars"></i></button>
                 </div>
 
                 <div class="menu-section">
@@ -62,7 +56,7 @@
         <main class="content">
             <header class="content-header">
                 <div class="header-left">
-                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+                    <button class="mobile-menu-btn" id="mobileMenuBtn" title="Abrir menu móvel"><i class="fa-solid fa-bars"></i></button>
                     <div class="breadcrumb">
                         <a href="../index.html">WMS Strategic Flow</a>
                         <i class="fa-solid fa-chevron-right"></i>
@@ -70,7 +64,7 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button type="button" class="btn btn-primary" onclick="openReceivingModal()">
+                    <button class="btn btn-primary" onclick="openReceivingModal()">
                         <i class="fa-solid fa-plus"></i> Novo Recebimento
                     </button>
                 </div>
@@ -101,7 +95,7 @@
                 <div class="panel-header">
                     <h2><i class="fa-solid fa-list"></i> Lista de Recebimentos</h2>
                     <div class="filters">
-                        <select class="select" id="filterStatus" title="Filtrar por status" aria-label="Filtrar por status">
+                        <select class="select" id="filterStatus" aria-label="Filtrar status">
                             <option value="all">Todos os status</option>
                             <option value="pending">Pendente</option>
                             <option value="in_progress">Em Andamento</option>
@@ -136,7 +130,7 @@
     </div>
 
     <!-- MODAL DE RECEBIMENTO -->
-    <div id="receivingModal" class="modal" hidden>
+    <div id="receivingModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
                 <h3>Novo Recebimento</h3>
@@ -144,24 +138,24 @@
             </div>
             <form id="receivingForm" onsubmit="saveReceiving(event)">
                 <div class="form-group">
-                    <label>Fornecedor *</label>
-                    <input type="text" id="supplier" required placeholder="Nome do fornecedor">
+                    <label for="supplier">Fornecedor *</label>
+                    <input type="text" id="supplier" required placeholder="Nome do fornecedor" title="Nome do fornecedor">
                 </div>
                 <div class="form-group">
-                    <label>Produto *</label>
-                    <input type="text" id="product" required placeholder="Nome do produto">
+                    <label for="product">Produto *</label>
+                    <input type="text" id="product" required placeholder="Nome do produto" title="Nome do produto">
                 </div>
                 <div class="form-group">
-                    <label>Quantidade *</label>
-                    <input type="number" id="quantity" required min="1" placeholder="0">
+                    <label for="quantity">Quantidade *</label>
+                    <input type="number" id="quantity" required min="1" placeholder="0" title="Quantidade recebida">
                 </div>
                 <div class="form-group">
-                    <label>Lote</label>
-                    <input type="text" id="lot" placeholder="Número do lote (opcional)">
+                    <label for="lot">Lote</label>
+                    <input type="text" id="lot" placeholder="Número do lote (opcional)" title="Número do lote">
                 </div>
                 <div class="form-group">
-                    <label>Validade</label>
-                    <input type="date" id="expiryDate">
+                    <label for="expiryDate">Validade</label>
+                    <input type="date" id="expiryDate" placeholder="Selecione a validade" title="Data de validade do produto">
                 </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-outline" onclick="closeReceivingModal()">Cancelar</button>
@@ -171,6 +165,82 @@
         </div>
     </div>
 
+    <style>
+        .modal.hidden {
+            display: none;
+        }
+
+        .empty-message {
+            text-align: center;
+            padding: 32px;
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        .filters {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+
     <script>
         // Carregar recebimentos
         function loadReceiving() {
@@ -178,7 +248,7 @@
             const tbody = document.getElementById('receivingList');
             
             if (!receivingList || receivingList.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:32px;">Nenhum recebimento cadastrado. Clique em "Novo Recebimento" para adicionar.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="8" class="empty-message">Nenhum recebimento cadastrado. Clique em "Novo Recebimento" para adicionar.</td></tr>';
                 return;
             }
 
@@ -204,13 +274,11 @@
         }
 
         function openReceivingModal() {
-            const modal = document.getElementById('receivingModal');
-            modal.hidden = false;
+            document.getElementById('receivingModal').classList.remove('hidden');
         }
 
         function closeReceivingModal() {
-            const modal = document.getElementById('receivingModal');
-            modal.hidden = true;
+            document.getElementById('receivingModal').classList.add('hidden');
             document.getElementById('receivingForm').reset();
         }
 
